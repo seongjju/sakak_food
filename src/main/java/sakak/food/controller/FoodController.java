@@ -76,7 +76,6 @@ public class FoodController {
 
 
     // Create: 새로운 음식 생성 기능
-
     @Operation(summary = "새로운 음식 생성")
     @PostMapping
     public ResponseEntity<?> createFood(@Valid @RequestBody FoodDTO foodDTO) {
@@ -86,6 +85,19 @@ public class FoodController {
         } catch (CustomException e) {
             ErrorResponse errorResponse = new ErrorResponse(e.getCode(), e.getHttpStatus(), e.getMessage());
             return ResponseEntity.status(e.getHttpStatus().value()).body(errorResponse);
+        }
+    }
+
+
+    // Update: 기존 음식 업데이트 기능
+    @Operation(summary = "기존 음식 업데이트")
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateFood(@PathVariable Long id, @Valid @RequestBody FoodDTO foodDTO) {
+        try {
+            Food food = foodService.updateFood(id, foodDTO);
+            return ResponseEntity.ok(food);
+        } catch (CustomException e) {
+            throw new CustomException(CustomErrorCode.FOOD_NOT_FOUND);
         }
     }
 
