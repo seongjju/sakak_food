@@ -44,4 +44,16 @@ public class FoodService {
                 .orElseThrow(() -> new CustomException(CustomErrorCode.FOOD_NOT_FOUND));
     }
 
+    //페이지별로 조회
+    @Transactional(readOnly = true)
+    public Page<Food> getTopFoods(int page, int size, String sortBy, String sortOrder) {
+        Sort.Direction direction = Sort.Direction.fromString(sortOrder);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+        return foodRepository.readFoods(pageable);
+    }
+
+
+
+
+
 }
