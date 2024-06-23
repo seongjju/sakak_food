@@ -52,6 +52,38 @@ public class FoodService {
         return foodRepository.readFoods(pageable);
     }
 
+    // 새로운 음식 생성 기능
+    @Transactional
+    public Food createFood(FoodDTO foodDTO) {
+        // 이미 존재하는 식품 코드인 경우에는 예외
+        // id는 자동부여되는 값이므로 다른 후보키인 foodCd로 식별하였음
+        if (foodRepository.existsByFoodCd(foodDTO.getFoodCd())) {
+            throw new CustomException(CustomErrorCode.DUPLICATE_FOOD);
+        }
+
+        // 새로운 식품 생성
+        Food food = Food.builder()
+                .foodCd(foodDTO.getFoodCd())
+                .groupName(foodDTO.getGroupName())
+                .foodName(foodDTO.getFoodName())
+                .researchYear(foodDTO.getResearchYear())
+                .makerName(foodDTO.getMakerName())
+                .refName(foodDTO.getRefName())
+                .servingSize(foodDTO.getServingSize())
+                .calorie(foodDTO.getCalorie())
+                .carbohydrate(foodDTO.getCarbohydrate())
+                .protein(foodDTO.getProtein())
+                .province(foodDTO.getProvince())
+                .sugars(foodDTO.getSugars())
+                .salt(foodDTO.getSalt())
+                .cholesterol(foodDTO.getCholesterol())
+                .saturatedFattyAcids(foodDTO.getSaturatedFattyAcids())
+                .transFat(foodDTO.getTransFat())
+                .build();
+
+        return foodRepository.save(food);
+    }
+
 
 
 
