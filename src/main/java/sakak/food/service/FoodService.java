@@ -85,6 +85,34 @@ public class FoodService {
     }
 
 
+    // 기존 음식 정보 업데이트 기능
+    @Transactional
+    public Food updateFood(Long id, FoodDTO foodDTO) {
+        // ID로 식품을 검색하고, 검색 결과가 없는 경우 예외
+        Food existingFood = foodRepository.findById(id)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.FOOD_NOT_FOUND));
+
+        //식품 업데이트
+        existingFood.setFoodCd(foodDTO.getFoodCd());
+        existingFood.setGroupName(foodDTO.getGroupName());
+        existingFood.setFoodName(foodDTO.getFoodName());
+        existingFood.setResearchYear(foodDTO.getResearchYear());
+        existingFood.setMakerName(foodDTO.getMakerName());
+        existingFood.setRefName(foodDTO.getRefName());
+        existingFood.setServingSize(foodDTO.getServingSize());
+        existingFood.setCalorie(foodDTO.getCalorie());
+        existingFood.setCarbohydrate(foodDTO.getCarbohydrate());
+        existingFood.setProtein(foodDTO.getProtein());
+        existingFood.setProvince(foodDTO.getProvince());
+        existingFood.setSugars(foodDTO.getSugars());
+        existingFood.setSalt(foodDTO.getSalt());
+        existingFood.setCholesterol(foodDTO.getCholesterol());
+        existingFood.setSaturatedFattyAcids(foodDTO.getSaturatedFattyAcids());
+        existingFood.setTransFat(foodDTO.getTransFat());
+
+        return foodRepository.save(existingFood);
+    }
+
 
 
 
