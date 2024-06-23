@@ -101,4 +101,19 @@ public class FoodController {
         }
     }
 
+
+
+    // Delete: 특정 음식 삭제 기능
+    @Operation(summary = "특정 음식 삭제")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteFood(@PathVariable Long id) {
+        try {
+            foodService.deleteFood(id);
+            String message = String.format("%d 삭제 성공", id);
+            return ResponseEntity.ok(message);
+        } catch (CustomException e) {
+            ErrorResponse errorResponse = new ErrorResponse(e.getCode(), e.getHttpStatus(), e.getMessage());
+            return ResponseEntity.status(e.getHttpStatus().value()).body(errorResponse);
+        }
+    }
 }
