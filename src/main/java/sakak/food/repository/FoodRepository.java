@@ -23,4 +23,7 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
                            @Param("food_code") String food_code);
 
 
+    @Query("SELECT f FROM Food f")
+    Page<Food> readFoods(Pageable pageable);
+
 }

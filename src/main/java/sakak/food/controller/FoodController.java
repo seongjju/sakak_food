@@ -56,5 +56,23 @@ public class FoodController {
         }
     }
 
+    // Read: 페이지 단위로 조회 기능
+    @Operation(summary = "페이지 단위로 조회")
+    @GetMapping
+    public ResponseEntity<?> getTopFoods(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+        try {
+            Page<Food> foods = foodService.getTopFoods(page, size, sortBy, sortOrder);
+            return ResponseEntity.ok(foods.getContent());
+        } catch (CustomException e) {
+            ErrorResponse errorResponse = new ErrorResponse(e.getCode(), e.getHttpStatus(), e.getMessage());
+            return ResponseEntity.status(e.getHttpStatus().value()).body(errorResponse);
+        }
+    }
+
+
 
 }
