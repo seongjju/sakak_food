@@ -43,4 +43,18 @@ public class FoodController {
     }
 
 
+    // Read: 특정 음식 조회 기능
+    @Operation(summary = "ID 기준으로 조회")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getFoodById(@PathVariable Long id) {
+        try {
+            Food food = foodService.getFoodById(id);
+            return ResponseEntity.ok(food);
+        } catch (CustomException e) {
+            ErrorResponse errorResponse = new ErrorResponse(e.getCode(), e.getHttpStatus(), e.getMessage());
+            return ResponseEntity.status(e.getHttpStatus().value()).body(errorResponse);
+        }
+    }
+
+
 }
