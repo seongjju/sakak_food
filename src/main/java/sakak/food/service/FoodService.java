@@ -35,4 +35,13 @@ public class FoodService {
         }
         return foods;
     }
+
+    // 특정 음식 조회 기능
+    @Transactional(readOnly = true)
+    public Food getFoodById(Long id) {
+        // ID로 식품을 검색하고, 검색 결과가 없는 경우 예외
+        return foodRepository.findById(id)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.FOOD_NOT_FOUND));
+    }
+
 }
