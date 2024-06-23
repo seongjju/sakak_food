@@ -115,5 +115,16 @@ public class FoodService {
 
 
 
+    // 기존 음식 삭제 기능
+    @Transactional
+    public void deleteFood(Long id) {
+        // ID로 식품을 검색하고, 검색 결과가 없는 경우 예외
+        Food existingFood = foodRepository.findById(id)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.FOOD_NOT_FOUND));
+
+        //검색된 식품 삭제
+        foodRepository.delete(existingFood);
+    }
+
 
 }
