@@ -26,4 +26,6 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
     @Query("SELECT f FROM Food f")
     Page<Food> readFoods(Pageable pageable);
 
+    boolean existsByFoodCd(String foodCd);
+
 }

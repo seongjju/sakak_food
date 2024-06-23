@@ -75,4 +75,18 @@ public class FoodController {
 
 
 
+    // Create: 새로운 음식 생성 기능
+
+    @Operation(summary = "새로운 음식 생성")
+    @PostMapping
+    public ResponseEntity<?> createFood(@Valid @RequestBody FoodDTO foodDTO) {
+        try {
+            Food food = foodService.createFood(foodDTO);
+            return ResponseEntity.ok(food);
+        } catch (CustomException e) {
+            ErrorResponse errorResponse = new ErrorResponse(e.getCode(), e.getHttpStatus(), e.getMessage());
+            return ResponseEntity.status(e.getHttpStatus().value()).body(errorResponse);
+        }
+    }
+
 }
